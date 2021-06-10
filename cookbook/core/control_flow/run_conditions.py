@@ -156,7 +156,9 @@ def basic_boolean_wf() -> int:
 
 
 # %%
-# Ofcourse it is also possible to pass a boolean directly to a workflow as follows
+# Example 5
+# ^^^^^^^^^
+# It is possible to pass a boolean directly to a workflow as follows
 #
 # .. note::
 #
@@ -174,11 +176,15 @@ if __name__ == "__main__":
     print("Running basic_boolean_wf a few times")
     for i in range(0, 5):
         print(f"Basic boolean wf output {basic_boolean_wf()}")
-        print(f"Boolean input {True if i < 2 else False}, workflow output {bool_input_wf(b=True if i < 2 else False)}")
+        print(
+            f"Boolean input {True if i < 2 else False}, workflow output {bool_input_wf(b=True if i < 2 else False)}"
+        )
 
 
 # %%
-# Also it is possible to arbitrarily nest conditional sections, inside other
+# Example 6
+# ^^^^^^^^^
+# It is possible to arbitrarily nest conditional sections, inside other
 # conditional sections. Remember - conditional sections can only be in the
 # `then` part for a previous conditional block
 # The follow example shows how you can use float comparisons to create
@@ -210,6 +216,12 @@ if __name__ == "__main__":
     print(f"nested_conditions(0.4) -> {nested_conditions(my_input=0.4)}")
 
 
+# %%
+# Example 7
+# ^^^^^^^^^
+# Just like other nodes, conditional nodes produce outputs. In the case of conditionals though, the outputs are computed
+# to be the subset of outputs that all then-nodes produce. In the following example, we call square() in one condition
+# and call double in another.
 @task
 def sum_diff(a: float, b: float) -> (float, float):
     """
@@ -219,11 +231,7 @@ def sum_diff(a: float, b: float) -> (float, float):
 
 
 # %%
-# Just like other nodes, conditional nodes produce outputs. In the case of conditionals though, the outputs are computed
-# to be the subset of outputs that all then-nodes produce. In the following example, we call square() in one condition
-# and call double in another.
-
-
+# Workflow that consumes outputs and produces outputs.
 @workflow
 def consume_outputs(my_input: float) -> float:
     is_heads = coin_toss()
@@ -238,3 +246,9 @@ def consume_outputs(my_input: float) -> float:
     # Regardless of the result, always double before returning
     # the variable `res` in this case will carry the value of either square or double of the variable `my_input`
     return double(n=res)
+
+
+# %%
+# This can be executed as well
+if __name__ == "__main__":
+    print(f"Output of consume_outputs(0.4) = {consume_outputs(my_input=0.4)}")
